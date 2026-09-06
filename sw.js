@@ -1,4 +1,4 @@
-const CACHE = "racemarket-v60-3d";
+const CACHE = "racemarket-v61-3d";
 
 const ASSETS = [
   "./",

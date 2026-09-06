@@ -55,6 +55,46 @@
 
     </section>
 
+    <section class="card visual-track-card">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">RACE VISUALIZER</div>
+          <h2>Watch the field</h2>
+        </div>
+        <div id="visualTrackStatus" class="profile-badge">PREFLIGHT</div>
+      </div>
+
+      <div id="visualTrack" class="visual-track">
+        <canvas id="race3dCanvas" class="race3d-canvas" aria-label="3D race broadcast"></canvas>
+        <div id="race3dStatus" class="race3d-status">3D BROADCAST</div>
+        <div class="race3d-live-readout">
+          <div class="race3d-live-pill"><span></span> LIVE</div>
+          <div class="race3d-clock" id="race3dClock">00:00.0</div>
+          <div class="race3d-distance" id="race3dDistance">TO THE FINISH</div>
+        </div>
+        <div class="track-skyline" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="track-rail track-rail-top" aria-hidden="true"></div>
+        <div class="track-rail track-rail-bottom" aria-hidden="true"></div>
+        <div class="track-start-gate" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><b></b>
+        </div>
+        <div class="track-lane-lines"></div>
+        <div class="track-speed-lines" aria-hidden="true"></div>
+        <div id="visualRunnerLayer"></div>
+        <div class="finish-zone" aria-hidden="true">
+          <div class="finish-line"></div>
+          <div class="finish-glow"></div>
+        </div>
+        <div class="track-vignette" aria-hidden="true"></div>
+      </div>
+    </section>
+    <section class="telemetry-strip card">
+      <div class="telemetry-item"><span>LEADER</span><strong id="telemetryLeader">—</strong></div><div class="telemetry-item"><span>PACE</span><strong id="telemetryPace">—</strong></div><div class="telemetry-item"><span>TOP SPEED</span><strong id="telemetrySpeed">—</strong></div><div class="telemetry-item"><span>TRACK</span><strong id="telemetryTrack">—</strong></div><div class="telemetry-item"><span>WEATHER</span><strong id="telemetryWeather">—</strong></div><div class="telemetry-item telemetry-progress"><span>RACE PROGRESS</span><strong id="telemetryProgress">0%</strong><div><i id="telemetryProgressBar"></i></div></div>
+    </section>
+    <div class="broadcast-lower-grid">
     <section class="card race-card">
       <div class="section-title-row compact">
         <div>
@@ -80,40 +120,6 @@
       </div>
     </section>
 
-    <section class="card visual-track-card">
-      <div class="section-title-row compact">
-        <div>
-          <div class="eyebrow">RACE VISUALIZER</div>
-          <h2>Watch the field</h2>
-        </div>
-        <div id="visualTrackStatus" class="profile-badge">PREFLIGHT</div>
-      </div>
-
-      <div id="visualTrack" class="visual-track">
-        <canvas id="race3dCanvas" class="race3d-canvas" aria-label="3D race broadcast"></canvas>
-        <div id="race3dStatus" class="race3d-status">3D BROADCAST</div>
-        <div class="track-skyline" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span>
-          <i></i><i></i><i></i><i></i><i></i>
-        </div>
-        <div class="track-rail track-rail-top" aria-hidden="true"></div>
-        <div class="track-rail track-rail-bottom" aria-hidden="true"></div>
-        <div class="track-start-gate" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><b></b>
-        </div>
-        <div class="track-lane-lines"></div>
-        <div class="track-speed-lines" aria-hidden="true"></div>
-        <div id="visualRunnerLayer"></div>
-        <div class="finish-zone" aria-hidden="true">
-          <div class="finish-line"></div>
-          <div class="finish-glow"></div>
-        </div>
-        <div class="track-vignette" aria-hidden="true"></div>
-      </div>
-    </section>
-    <section class="telemetry-strip card">
-      <div class="telemetry-item"><span>LEADER</span><strong id="telemetryLeader">—</strong></div><div class="telemetry-item"><span>PACE</span><strong id="telemetryPace">—</strong></div><div class="telemetry-item"><span>TOP SPEED</span><strong id="telemetrySpeed">—</strong></div><div class="telemetry-item"><span>TRACK</span><strong id="telemetryTrack">—</strong></div><div class="telemetry-item"><span>WEATHER</span><strong id="telemetryWeather">—</strong></div><div class="telemetry-item telemetry-progress"><span>RACE PROGRESS</span><strong id="telemetryProgress">0%</strong><div><i id="telemetryProgressBar"></i></div></div>
-    </section>
     <section class="card live-race-card">
       <div class="section-title-row compact">
         <div>
@@ -126,7 +132,156 @@
         The live race board will populate when the gates open.
       </div>
     </section>
+    </div>
 
+    <section class="card paddock-card">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">VIRTUAL PADDOCK</div>
+          <h2 id="profileTitle">Select a runner</h2>
+        </div>
+        <div id="profileBadge" class="profile-badge">RUNNER PROFILE</div>
+      </div>
+
+      <div id="horseProfile" class="horse-profile empty">
+        Select a horse from the race card to view its simulated profile.
+      </div>
+    </section>
+
+    <div class="trading-terminal"><div class="terminal-main">
+    <section class="market-section">
+      <div class="section-title-row">
+        <div>
+          <div class="eyebrow">WINNER MARKET</div>
+          <h2>Trade the field</h2>
+        </div>
+        <div id="marketPill" class="market-pill">
+          <span class="market-dot"></span>
+          <span id="marketPillText">PRICES LIVE</span>
+        </div>
+      </div>
+      <div id="marketClosedBanner" class="market-closed-banner hidden">
+        <div class="market-closed-icon">🏁</div>
+        <div>
+          <strong>WINNER MARKET CLOSED</strong>
+          <span id="marketClosedText">The winner market has been settled.</span>
+        </div>
+      </div>
+      <div id="horseList" class="horse-list"></div>
+    </section>
+
+    <section class="card chart-card">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">PRICE MOVEMENT</div>
+          <h2 id="selectedHorseTitle">Select a runner</h2>
+        </div>
+        <div id="selectedPrice" class="big-price">$0.00</div>
+      </div>
+      <canvas id="chart" width="900" height="300"></canvas>
+    </section>
+
+      </div><aside class="terminal-side">
+    <section class="grid-two">
+      <section class="card">
+        <div class="section-title-row compact">
+          <div>
+            <div class="eyebrow">ORDER BOOK</div>
+            <h2 id="bookTitle">Select a runner</h2>
+          </div>
+          <button id="flipSide" class="ghost-btn">Buy</button>
+        </div>
+
+        <div class="book-grid">
+          <div>
+            <div class="book-head"><span>SELL</span><span>QTY</span></div>
+            <div id="asks"></div>
+          </div>
+          <div>
+            <div class="book-head"><span>BUY</span><span>QTY</span></div>
+            <div id="bids"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card order-card">
+        <div class="eyebrow">TRADE TICKET</div>
+        <h2 id="ticketTitle">Select a runner</h2>
+
+        <div class="trade-tabs">
+          <button id="buyTab" class="trade-tab active">BUY YES</button>
+          <button id="sellTab" class="trade-tab">SELL YES</button>
+        </div>
+
+        <label>
+          Limit price <span id="priceLabel">($0.00)</span>
+        </label>
+        <input id="priceInput" type="number" min="0.01" max="0.99" step="0.01" value="0.30">
+
+        <label>Contracts</label>
+        <input id="qtyInput" type="number" min="1" max="1000" step="1" value="25">
+
+        <div class="ticket-summary">
+          <div><span>Notional</span><strong id="notional">$7.50</strong></div>
+          <div><span>Potential payout</span><strong id="payout">$25.00</strong></div>
+        </div>
+
+        <button id="placeBtn" class="primary-btn">PLACE BUY YES ORDER</button>
+
+        <div id="tradeMsg" class="trade-msg">
+          Orders are simulated for this prototype.
+        </div>
+      </section>
+    </section></aside></div>
+
+    <section id="resultsCard" class="card results-card hidden">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">OFFICIAL RESULTS</div>
+          <h2>Race 6 Results</h2>
+        </div>
+        <div id="resultWinnerBadge" class="profile-badge">FINISHED</div>
+      </div>
+
+      <div id="resultsSummary" class="results-summary"></div>
+
+      <div class="results-table-wrap">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>POS</th>
+              <th>PP</th>
+              <th>HORSE</th>
+              <th>TIME</th>
+              <th>MARGIN</th>
+              <th>RESULT</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card positions-card">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">YOUR POSITIONS</div>
+          <h2>Portfolio</h2>
+        </div>
+        <div id="portfolioPnl" class="portfolio-pnl">$0.00</div>
+      </div>
+      <div id="positions"></div>
+    </section>
+
+    <footer class="footer">
+      Paper-trading prototype • Simulated race data • Historical data fields are simulation-only
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="app3d.js?v=1" defer></script>
+</body>
+</html>
     <section class="card paddock-card">
       <div class="section-title-row compact">
         <div>

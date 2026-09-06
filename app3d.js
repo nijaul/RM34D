@@ -262,9 +262,55 @@
     rein1.rotation.y=Math.PI/2;
     group.add(rein1);
 
-    group.userData.parts={body,chest,neck,head,tailBase,torso,headJ,helmet,legs,cloth,saddle};
+    // Muscular highlights / anatomical definition.
+    const muscleMat=makeMat(coat,{roughness:.62});
+    const flank=new THREE.Mesh(new THREE.SphereGeometry(1,16,10),muscleMat);
+    flank.scale.set(1.12,.56,.62);
+    flank.position.set(-.55,1.48,.02);
+    group.add(flank);
+
+    const haunch=new THREE.Mesh(new THREE.SphereGeometry(1,16,10),makeMat(coat,{roughness:.64}));
+    haunch.scale.set(.92,.72,.70);
+    haunch.position.set(-1.25,1.45,0);
+    group.add(haunch);
+
+    // Withers / shoulder ridge.
+    const withers=new THREE.Mesh(new THREE.SphereGeometry(1,14,9),makeMat(coatHiColor(horse.id),{roughness:.58}));
+    withers.scale.set(.58,.42,.60);
+    withers.position.set(.65,2.02,0);
+    group.add(withers);
+
+    // Leg joints and fetlocks add silhouette definition.
+    legs.forEach((leg)=>{
+      const knee=new THREE.Mesh(new THREE.SphereGeometry(.16,10,8),coatMat);
+      knee.position.set(leg.baseX,.67,leg.baseZ);
+      group.add(knee);
+      leg.knee=knee;
+    });
+
+    // Eye highlight and nostril accents as emissive-dark details.
+    const eyeMat=new THREE.MeshBasicMaterial({color:0x020202});
+    const eyeL=new THREE.Mesh(new THREE.SphereGeometry(.052,8,6),eyeMat);
+    eyeL.position.set(2.82,3.40,-.39);
+    group.add(eyeL);
+    const eyeR=eyeL.clone(); eyeR.position.z=.39; group.add(eyeR);
+
+    const bridleBand=new THREE.Mesh(
+      new THREE.TorusGeometry(.43,.024,7,20,Math.PI*1.25),
+      makeMat(0x9d8661,{roughness:.5,metalness:.1})
+    );
+    bridleBand.position.set(2.58,3.30,0);
+    bridleBand.rotation.y=Math.PI/2;
+    group.add(bridleBand);
+
+    group.userData.parts={body,chest,neck,head,tailBase,torso,headJ,helmet,legs,cloth,saddle,flank,haunch,withers,bridleBand};
     group.userData.coatMat=coatMat;
     return group;
+  }
+
+  function coatHiColor(id){
+    const colors=[0x9b6548,0x714a34,0xb97049,0xc88457,0x4a4943,0xb2b1a7,0x8f9690,0x8a4a32];
+    return colors[(id-1)%colors.length];
   }
 
   function addBox(parent,size,pos,mat){
@@ -448,8 +494,8 @@
       obj.visible=true;
       const targetX=horseX(h);
       const targetZ=horseZ(h);
-      obj.position.x += (targetX-obj.position.x)*.14;
-      obj.position.z += (targetZ-obj.position.z)*.14;
+      obj.position.x += (targetX-obj.position.x)*.055;
+      obj.position.z += (targetZ-obj.position.z)*.075;
 
       const speed=clamp((h.currentSpeed||0)/1.25,.55,1.15);
       const gait=live ? now*(5.2+speed*2.1)+h.id*.87 : 0;
@@ -462,6 +508,9 @@
       const bob=live ? Math.abs(Math.sin(gait*1.0))*.055 : 0;
       parts.body.position.y=1.42+bob;
       parts.chest.position.y=1.54+bob;
+      if(parts.flank) parts.flank.position.y=1.48+bob;
+      if(parts.haunch) parts.haunch.position.y=1.45+bob;
+      if(parts.withers) parts.withers.position.y=2.02+bob;
       parts.torso.position.y=2.83+bob*.8;
       parts.headJ.position.y=3.48+bob*.8;
       parts.helmet.position.y=3.66+bob*.8;
@@ -603,21 +652,39 @@
     const desiredZ=state.phase==="live" ? 25 : 31;
     const desiredY=state.phase==="live" ? 7.3 : 8.2;
 
-    rendererState.camera.position.x += (desiredCameraX-rendererState.camera.position.x)*.055;
-    rendererState.camera.position.y += (desiredY-rendererState.camera.position.y)*.055;
-    rendererState.camera.position.z += (desiredZ-rendererState.camera.position.z)*.055;
+    rendererState.camera.position.x += (desiredCameraX-rendererState.camera.position.x)*.035;
+    rendererState.camera.position.y += (desiredY-rendererState.camera.position.y)*.035;
+    rendererState.camera.position.z += (desiredZ-rendererState.camera.position.z)*.035;
     rendererState.camera.lookAt(target);
   }
 
   function updateStatus(){
     const status=document.getElementById("race3dStatus");
-    if(!status)return;
+    const clock=document.getElementById("race3dClock");
+    const distance=document.getElementById("race3dDistance");
     const phase=state.phase||"countdown";
-    status.textContent=
-      phase==="live" ? "3D • LIVE" :
-      phase==="countdown" ? "3D • PRE-RACE" :
-      phase==="finished" ? "3D • FINISH" :
-      "3D • SETTLED";
+
+    if(status){
+      status.textContent=
+        phase==="live" ? "3D • LIVE" :
+        phase==="countdown" ? "3D • PRE-RACE" :
+        phase==="finished" ? "3D • FINISH" :
+        "3D • SETTLED";
+    }
+
+    if(clock){
+      const remain=Math.max(0,state.raceDuration-state.raceT);
+      const mins=Math.floor(remain/60).toString().padStart(2,"0");
+      const secs=Math.floor(remain%60).toString().padStart(2,"0");
+      const tenths=phase==="live" ? Math.floor(((performance.now()/100)%1)*10) : 0;
+      clock.textContent=`${mins}:${secs}.${tenths}`;
+    }
+
+    if(distance){
+      const leader=[...(state.horses||[])].sort((a,b)=>(b.distanceTravelled||0)-(a.distanceTravelled||0))[0];
+      const rem=leader ? Math.max(0,(state.raceDistance||100)-(leader.distanceTravelled||0)) : (state.raceDistance||100);
+      distance.textContent=`${(rem/8).toFixed(2)}F TO FINISH`;
+    }
   }
 
   function renderLoop(time){

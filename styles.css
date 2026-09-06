@@ -6186,3 +6186,419 @@ input:focus{
     font-size:6px;
   }
 }
+
+/* ==========================================================
+   V10 — Screenshot-matched presentation layer
+   Reference: uploaded RaceMarket race-broadcast screenshot.
+========================================================== */
+
+html,body{
+  background:#071018 !important;
+}
+body{
+  padding:0 10px 24px !important;
+}
+.app-shell{
+  max-width:1510px !important;
+}
+
+.sportsbook-header{
+  height:60px !important;
+  padding:8px 12px !important;
+  background:rgba(5,13,20,.97) !important;
+  border-color:#213141 !important;
+  border-radius:0 0 10px 10px !important;
+}
+.sportsbook-header .brand-row{gap:9px}
+.sportsbook-header .brand-mark{
+  width:34px !important;height:34px !important;border-radius:50% !important;
+  background:linear-gradient(145deg,#ffe49a,#cba34e) !important;
+  color:#0c141c !important;
+}
+.sportsbook-header .brand{
+  font-size:17px !important;
+  letter-spacing:.045em !important;
+}
+.sportsbook-header .brand span{color:#9aa9b8 !important}
+.sportsbook-header .subtitle{
+  font-size:7px !important;
+  letter-spacing:.19em !important;
+}
+.sportsbook-nav{margin-left:12px !important}
+.nav-item{
+  height:60px !important;
+  padding:0 16px !important;
+  font-size:10px !important;
+  color:#8090a1 !important;
+}
+.nav-item.active{
+  color:#f4f7f8 !important;
+  border-bottom:2px solid #39e6aa !important;
+}
+.header-actions{gap:8px !important}
+.live-chip{
+  padding:7px 10px !important;
+  background:#39e6aa !important;
+  border-radius:6px !important;
+}
+.sportsbook-header .wallet{
+  min-width:116px;
+  padding:7px 9px !important;
+  border:1px solid #263543 !important;
+  background:#0d151e !important;
+  border-radius:7px !important;
+}
+.sportsbook-header .wallet-label{font-size:7px !important}
+.sportsbook-header .wallet-value{
+  font-size:12px !important;
+  color:#f1ce66 !important;
+}
+
+.live-ticker{
+  margin:6px 0 8px !important;
+  height:30px !important;
+  border-radius:7px !important;
+  background:#0b131b !important;
+}
+.ticker-label{
+  padding:0 10px !important;
+  background:#39e6aa !important;
+  color:#071018 !important;
+  font-size:8px !important;
+}
+.ticker-label span{background:#071018 !important}
+.ticker-track{
+  gap:19px !important;
+  font-size:8px !important;
+}
+
+.race-head{
+  min-height:96px;
+  margin-bottom:9px !important;
+  padding:10px 14px !important;
+  border-radius:9px !important;
+  background:linear-gradient(180deg,#0b141d,#09111a) !important;
+}
+.race-head h1{
+  font-size:28px !important;
+  margin-top:2px !important;
+  color:#f2f4f6 !important;
+}
+.race-head .eyebrow{
+  font-size:8px !important;
+  letter-spacing:.18em !important;
+}
+.race-meta{font-size:9px !important;margin:4px 0 0 !important}
+.race-time-strip{
+  min-width:190px !important;
+  padding:7px 10px !important;
+  background:#0b141c !important;
+  border-color:#263644 !important;
+  border-radius:8px !important;
+}
+.race-time-value{
+  font-size:26px !important;
+}
+.race-time-label{font-size:7px !important}
+.race-time-subtext{font-size:7px !important}
+
+.visual-track-card{
+  padding:6px !important;
+  border-radius:10px !important;
+  background:#0a121a !important;
+  border-color:#263644 !important;
+}
+.visual-track-card>.section-title-row{
+  display:none !important;
+}
+.visual-track{
+  min-height:620px !important;
+  border-radius:8px !important;
+  border-color:#314452 !important;
+  background:#1b2b20 !important;
+}
+.race3d-canvas{
+  z-index:1 !important;
+}
+.race3d-live-readout{
+  position:absolute;
+  top:10px;
+  right:14px;
+  z-index:88;
+  display:grid;
+  justify-items:end;
+  gap:2px;
+  pointer-events:none;
+}
+.race3d-live-pill{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 8px;
+  border:1px solid rgba(57,230,170,.78);
+  border-radius:6px;
+  background:rgba(3,10,14,.72);
+  color:#49e1ad;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.12em;
+}
+.race3d-live-pill span{
+  width:5px;height:5px;border-radius:50%;background:#49e1ad;box-shadow:0 0 7px rgba(73,225,173,.75);
+}
+.race3d-clock{
+  font-size:28px;
+  line-height:1;
+  font-weight:950;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 2px 9px rgba(0,0,0,.45);
+}
+.race3d-distance{
+  font-size:7px;
+  color:#d4dde3;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+.race3d-status{
+  right:12px !important;
+  bottom:12px !important;
+  padding:5px 7px !important;
+  font-size:6px !important;
+}
+.visual-track.three-enabled .race3d-live-readout{
+  display:grid !important;
+}
+.visual-track.three-enabled{
+  background:#1b2a20 !important;
+}
+
+/* Make the 3D race frame carry the screenshot's broadcast depth. */
+.visual-track.three-enabled::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:80;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 55% 48%,transparent 42%,rgba(0,0,0,.18) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.05),transparent 20%,transparent 80%,rgba(0,0,0,.14));
+}
+.visual-track.three-enabled::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:79;
+  pointer-events:none;
+  background:
+    linear-gradient(100deg,rgba(255,255,255,.04),transparent 27%,transparent 78%,rgba(255,255,255,.02));
+}
+
+.telemetry-strip{
+  height:63px;
+  margin:8px 0 10px !important;
+  grid-template-columns:repeat(5,1fr) 1.55fr !important;
+  border-radius:8px !important;
+  background:#0a121a !important;
+  border-color:#273846 !important;
+}
+.telemetry-item{
+  padding:9px 12px !important;
+  background:linear-gradient(180deg,#0d171f,#0a1219) !important;
+}
+.telemetry-item span{
+  font-size:6px !important;
+  color:#8292a2 !important;
+}
+.telemetry-item strong{
+  font-size:10px !important;
+  color:#edf2f5 !important;
+}
+.telemetry-progress>div{height:4px !important}
+
+.live-race-card,.race-card,.paddock-card{
+  display:block !important;
+}
+.race-card,.live-race-card{
+  margin:0 !important;
+}
+.race-card .section-title-row,.live-race-card .section-title-row{
+  margin:2px 2px 9px !important;
+}
+.live-race-card{margin-top:0 !important}
+
+/* Screenshot has the race card and live state side-by-side. */
+.race-card + .visual-track-card{
+  margin-top:0;
+}
+.visual-track-card ~ .telemetry-strip + .live-race-card{
+  margin-top:0 !important;
+}
+.race-card{
+  display:none !important;
+}
+/* Existing DOM places the race card before the visual; provide the
+   lower cards a denser screenshot-like treatment. */
+.live-race-card{
+  background:linear-gradient(180deg,#0d1720,#091118) !important;
+  border-color:#263644 !important;
+}
+.live-race-state{
+  max-height:290px;
+  overflow:auto;
+}
+.live-row{
+  grid-template-columns:30px 1fr 58px 72px 72px !important;
+  min-height:41px;
+  padding:8px 9px !important;
+  background:#0e171f !important;
+  border-color:#20303d !important;
+}
+.live-row:first-child{
+  background:linear-gradient(90deg,#121e26,#0d171e) !important;
+}
+.live-horse strong{font-size:10px !important}
+.live-horse span{font-size:8px !important}
+.live-stat small,.live-gap{font-size:7px !important}
+.live-stat strong{font-size:9px !important}
+
+/* Virtual paddock after the live board is still available lower on page. */
+.paddock-card{
+  background:#0b141c !important;
+  border-color:#263644 !important;
+}
+
+/* Market / chart / book: match screenshot's compact terminal cards. */
+.trading-terminal{
+  grid-template-columns:minmax(0,1.65fr) 340px !important;
+  gap:10px !important;
+  margin-top:9px;
+}
+.market-section{
+  background:transparent;
+}
+.market-section>.section-title-row{
+  margin:0 0 7px !important;
+}
+.market-section>.section-title-row h2{
+  font-size:15px !important;
+}
+.horse-list{
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:6px !important;
+}
+.horse-card{
+  background:#0c141b !important;
+  border-color:#23333f !important;
+  border-radius:8px !important;
+  padding:7px 8px !important;
+}
+.horse-id{
+  width:25px !important;
+  height:25px !important;
+  border-radius:6px !important;
+}
+.horse-name{
+  font-size:9px !important;
+}
+.price{font-size:13px !important}
+.move{font-size:7px !important}
+.subline{font-size:7px !important}
+.bar{height:3px !important;margin-top:5px !important}
+
+.grid-two>.card{
+  background:#0b141c !important;
+  border-color:#263644 !important;
+  border-radius:8px !important;
+}
+.book-head{font-size:7px !important}
+.book-line{padding:6px 4px !important;font-size:8px !important}
+.order-card h2{font-size:14px !important}
+.trade-tabs{margin:7px 0 !important}
+.trade-tab{font-size:7px !important;padding:7px !important}
+.order-card label{font-size:7px !important;margin:7px 0 4px !important}
+.order-card input{padding:8px !important;font-size:10px !important}
+.ticket-summary>div{padding:7px !important}
+.ticket-summary span{font-size:6px !important}
+.ticket-summary strong{font-size:9px !important}
+.primary-btn{padding:9px !important;font-size:8px !important}
+
+.positions-card{
+  background:#0b141c !important;
+  border-color:#263644 !important;
+}
+
+/* Desktop lower market has screenshot proportions. */
+@media(min-width:1000px){
+  .live-race-card{
+    margin-top:0 !important;
+  }
+  .visual-track.three-enabled{
+    min-height:640px !important;
+  }
+}
+@media(max-width:900px){
+  .trading-terminal{grid-template-columns:1fr !important}
+  .telemetry-strip{grid-template-columns:repeat(3,1fr) !important;height:auto}
+  .race3d-clock{font-size:22px}
+}
+@media(max-width:650px){
+  body{padding:0 6px 20px !important}
+  .sportsbook-header{height:56px !important}
+  .sportsbook-nav{display:none !important}
+  .visual-track.three-enabled{min-height:470px !important}
+  .race3d-live-readout{top:8px;right:9px}
+  .race3d-clock{font-size:21px}
+  .race3d-distance{font-size:6px}
+  .horse-list{grid-template-columns:1fr !important}
+}
+
+/* V10.1 — lower screenshot-aligned information grid */
+.broadcast-lower-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:10px;
+  margin-bottom:10px;
+}
+.broadcast-lower-grid .race-card{
+  display:block !important;
+  margin:0 !important;
+}
+.broadcast-lower-grid .live-race-card{
+  display:block !important;
+  margin:0 !important;
+}
+.broadcast-lower-grid .section-title-row{
+  margin:0 0 8px !important;
+}
+.broadcast-lower-grid table{
+  min-width:0 !important;
+}
+.broadcast-lower-grid th{
+  padding:7px 8px !important;
+}
+.broadcast-lower-grid td{
+  padding:9px 8px !important;
+  font-size:10px !important;
+}
+.broadcast-lower-grid .live-row{
+  grid-template-columns:27px 1fr 50px 57px 62px !important;
+  min-height:38px;
+  padding:7px 8px !important;
+}
+.broadcast-lower-grid .live-horse strong{
+  font-size:9px !important;
+}
+.broadcast-lower-grid .live-horse span{
+  font-size:7px !important;
+}
+.broadcast-lower-grid .live-stat strong{
+  font-size:8px !important;
+}
+.broadcast-lower-grid .live-gap{
+  font-size:7px !important;
+}
+@media(max-width:900px){
+  .broadcast-lower-grid{
+    grid-template-columns:1fr;
+  }
+}
