@@ -1,0 +1,9 @@
+{
+  "name": "RaceMarket \u2014 Live Horse Exchange",
+  "short_name": "RaceMarket",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#08100c",
+  "theme_color": "#16351d",
+  "description": "iPhone-first virtual horse racing prediction market paper-trading prototype."
+}

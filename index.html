@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0e13">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <title>RaceMarket — Live Horse Exchange</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js" defer></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar sportsbook-header">
+      <div class="brand-row"><div class="brand-mark">♞</div><div><div class="brand">RACE<span>MARKET</span></div><div class="subtitle">LIVE EXCHANGE</div></div></div>
+      <nav class="sportsbook-nav" aria-label="Primary"><button class="nav-item active">RACES</button><button class="nav-item">SPORTS</button><button class="nav-item">PREDICTION MARKET</button></nav>
+      <div class="header-actions"><div class="live-chip"><i></i> LIVE</div><div class="wallet"><div class="wallet-label">PAPER BALANCE</div><div id="cash" class="wallet-value">$10,000.00</div></div></div>
+    </header>
+    <div id="liveTicker" class="live-ticker"><div class="ticker-label"><span></span> LIVE TICKER</div><div id="tickerTrack" class="ticker-track"></div></div>
+
+    <section class="race-head card">
+      <div class="track-line">
+        <div>
+          <div id="trackName" class="eyebrow">CHURCHILL DOWNS</div>
+          <h1 id="raceNumber">Race 6</h1>
+        </div>
+        <div id="raceStatus" class="status-badge">OPENS IN 00:30</div>
+      </div>
+
+      <div class="race-meta">
+        <span id="raceDistance">🏇 1 Mile</span>
+        <span>•</span>
+        <span id="surface">Dirt</span>
+        <span>•</span>
+        <span id="raceType">Stakes</span>
+        <span>•</span>
+        <span id="horseCount">8 Horses</span>
+        <span>•</span>
+        <span id="raceStyle">Strong Favorite</span>
+      </div>
+
+      <div class="race-time-strip">
+        <div>
+          <div id="raceTimeLabel" class="race-time-label">MARKET OPENS IN</div>
+          <div id="raceClock" class="race-time-value">00:30</div>
+        </div>
+        <div id="raceTimeSubtext" class="race-time-subtext">
+          COUNTDOWN TO MARKET OPEN
+        </div>
+      </div>
+
+
+    </section>
+
+    <section class="card race-card">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">VIRTUAL RACE CARD</div>
+          <h2>Today's field</h2>
+        </div>
+        <button id="restartBtn" class="ghost-btn">New race</button>
+      </div>
+
+      <div class="race-card-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>PP</th>
+              <th>HORSE</th>
+              <th>ML</th>
+              <th>RATING</th>
+              <th>PROFILE</th>
+            </tr>
+          </thead>
+          <tbody id="raceCardBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card visual-track-card">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">RACE VISUALIZER</div>
+          <h2>Watch the field</h2>
+        </div>
+        <div id="visualTrackStatus" class="profile-badge">PREFLIGHT</div>
+      </div>
+
+      <div id="visualTrack" class="visual-track">
+        <canvas id="race3dCanvas" class="race3d-canvas" aria-label="3D race broadcast"></canvas>
+        <div id="race3dStatus" class="race3d-status">3D BROADCAST</div>
+        <div class="track-skyline" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="track-rail track-rail-top" aria-hidden="true"></div>
+        <div class="track-rail track-rail-bottom" aria-hidden="true"></div>
+        <div class="track-start-gate" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><b></b>
+        </div>
+        <div class="track-lane-lines"></div>
+        <div class="track-speed-lines" aria-hidden="true"></div>
+        <div id="visualRunnerLayer"></div>
+        <div class="finish-zone" aria-hidden="true">
+          <div class="finish-line"></div>
+          <div class="finish-glow"></div>
+        </div>
+        <div class="track-vignette" aria-hidden="true"></div>
+      </div>
+    </section>
+    <section class="telemetry-strip card">
+      <div class="telemetry-item"><span>LEADER</span><strong id="telemetryLeader">—</strong></div><div class="telemetry-item"><span>PACE</span><strong id="telemetryPace">—</strong></div><div class="telemetry-item"><span>TOP SPEED</span><strong id="telemetrySpeed">—</strong></div><div class="telemetry-item"><span>TRACK</span><strong id="telemetryTrack">—</strong></div><div class="telemetry-item"><span>WEATHER</span><strong id="telemetryWeather">—</strong></div><div class="telemetry-item telemetry-progress"><span>RACE PROGRESS</span><strong id="telemetryProgress">0%</strong><div><i id="telemetryProgressBar"></i></div></div>
+    </section>
+    <section class="card live-race-card">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">LIVE RACE STATE</div>
+          <h2>On the track</h2>
+        </div>
+        <div id="liveRaceSummary" class="profile-badge">WAITING FOR START</div>
+      </div>
+      <div id="liveRaceState" class="live-race-state empty">
+        The live race board will populate when the gates open.
+      </div>
+    </section>
+
+    <section class="card paddock-card">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">VIRTUAL PADDOCK</div>
+          <h2 id="profileTitle">Select a runner</h2>
+        </div>
+        <div id="profileBadge" class="profile-badge">RUNNER PROFILE</div>
+      </div>
+
+      <div id="horseProfile" class="horse-profile empty">
+        Select a horse from the race card to view its simulated profile.
+      </div>
+    </section>
+
+    <div class="trading-terminal"><div class="terminal-main">
+    <section class="market-section">
+      <div class="section-title-row">
+        <div>
+          <div class="eyebrow">WINNER MARKET</div>
+          <h2>Trade the field</h2>
+        </div>
+        <div id="marketPill" class="market-pill">
+          <span class="market-dot"></span>
+          <span id="marketPillText">PRICES LIVE</span>
+        </div>
+      </div>
+      <div id="marketClosedBanner" class="market-closed-banner hidden">
+        <div class="market-closed-icon">🏁</div>
+        <div>
+          <strong>WINNER MARKET CLOSED</strong>
+          <span id="marketClosedText">The winner market has been settled.</span>
+        </div>
+      </div>
+      <div id="horseList" class="horse-list"></div>
+    </section>
+
+    <section class="card chart-card">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">PRICE MOVEMENT</div>
+          <h2 id="selectedHorseTitle">Select a runner</h2>
+        </div>
+        <div id="selectedPrice" class="big-price">$0.00</div>
+      </div>
+      <canvas id="chart" width="900" height="300"></canvas>
+    </section>
+
+      </div><aside class="terminal-side">
+    <section class="grid-two">
+      <section class="card">
+        <div class="section-title-row compact">
+          <div>
+            <div class="eyebrow">ORDER BOOK</div>
+            <h2 id="bookTitle">Select a runner</h2>
+          </div>
+          <button id="flipSide" class="ghost-btn">Buy</button>
+        </div>
+
+        <div class="book-grid">
+          <div>
+            <div class="book-head"><span>SELL</span><span>QTY</span></div>
+            <div id="asks"></div>
+          </div>
+          <div>
+            <div class="book-head"><span>BUY</span><span>QTY</span></div>
+            <div id="bids"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card order-card">
+        <div class="eyebrow">TRADE TICKET</div>
+        <h2 id="ticketTitle">Select a runner</h2>
+
+        <div class="trade-tabs">
+          <button id="buyTab" class="trade-tab active">BUY YES</button>
+          <button id="sellTab" class="trade-tab">SELL YES</button>
+        </div>
+
+        <label>
+          Limit price <span id="priceLabel">($0.00)</span>
+        </label>
+        <input id="priceInput" type="number" min="0.01" max="0.99" step="0.01" value="0.30">
+
+        <label>Contracts</label>
+        <input id="qtyInput" type="number" min="1" max="1000" step="1" value="25">
+
+        <div class="ticket-summary">
+          <div><span>Notional</span><strong id="notional">$7.50</strong></div>
+          <div><span>Potential payout</span><strong id="payout">$25.00</strong></div>
+        </div>
+
+        <button id="placeBtn" class="primary-btn">PLACE BUY YES ORDER</button>
+
+        <div id="tradeMsg" class="trade-msg">
+          Orders are simulated for this prototype.
+        </div>
+      </section>
+    </section></aside></div>
+
+    <section id="resultsCard" class="card results-card hidden">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">OFFICIAL RESULTS</div>
+          <h2>Race 6 Results</h2>
+        </div>
+        <div id="resultWinnerBadge" class="profile-badge">FINISHED</div>
+      </div>
+
+      <div id="resultsSummary" class="results-summary"></div>
+
+      <div class="results-table-wrap">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>POS</th>
+              <th>PP</th>
+              <th>HORSE</th>
+              <th>TIME</th>
+              <th>MARGIN</th>
+              <th>RESULT</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card positions-card">
+      <div class="section-title-row compact">
+        <div>
+          <div class="eyebrow">YOUR POSITIONS</div>
+          <h2>Portfolio</h2>
+        </div>
+        <div id="portfolioPnl" class="portfolio-pnl">$0.00</div>
+      </div>
+      <div id="positions"></div>
+    </section>
+
+    <footer class="footer">
+      Paper-trading prototype • Simulated race data • Historical data fields are simulation-only
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="app3d.js?v=1" defer></script>
+</body>
+</html>
